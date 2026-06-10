@@ -509,16 +509,11 @@ def update_expense(id):
 
 
 
-@app.route("/expenses/<id>", methods=['DELETE'])
+@app.route("/expenses/<int:id>", methods=['DELETE'])
 def delete_expense(id):
     con = sqlite3.connect("expense_tracker.db")
     cur = con.cursor()
     cur.execute("PRAGMA foreign_keys = ON")
-    try:
-        int(id)
-    except Exception:
-        con.close()
-        return jsonify({"error": "invalid query passed"}), 404
     
     result = cur.execute("DELETE FROM expenses WHERE id = ?", (id,))
     con.commit()
